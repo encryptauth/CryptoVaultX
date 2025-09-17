@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoTool Extension</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 CryptoTool</h1>
+        </header>
+        
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="symmetric">Symmetric</button>
+            <button class="tab-btn" data-tab="asymmetric">Asymmetric</button>
+            <button class="tab-btn" data-tab="hash">Hash</button>
+            <button class="tab-btn" data-tab="classical">Classical</button>
+            <button class="tab-btn" data-tab="encoding">Encoding</button>
+            <button class="tab-btn" data-tab="json">JSON</button>
+        </nav>
+
+        <!-- Symmetric Encryption Tab -->
+        <div class="tab-content active" id="symmetric">
+            <h2>🔄 Symmetric Encryption</h2>
+            <div class="algorithm-select">
+                <label for="symmetric-algo">Algorithm:</label>
+                <select id="symmetric-algo">
+                    <option value="aes-128-gcm">AES-128-GCM (Secure, Authenticated) ✅</option>
+                    <option value="aes-256-gcm">AES-256-GCM (Most Secure, Authenticated) ✅</option>
+                    <option value="aes-128-cbc">AES-128-CBC (Standard Mode) ✅</option>
+                    <option value="aes-256-cbc">AES-256-CBC (Strong Standard Mode) ✅</option>
+                    <option value="aes-128-ecb">AES-128-ECB (Educational Only) ⚠️</option>
+                    <option value="aes-256-ecb">AES-256-ECB (Educational Only) ⚠️</option>
+                    <option value="des">DES (Legacy, Weak) ⚠️</option>
+                    <option value="3des">3DES (Legacy) ⚠️</option>
+                    <option value="twofish">Twofish (Strong Alternative) ✅</option>
+                    <option value="serpent">Serpent (High Security) ✅</option>
+                    <option value="rc4">RC4 (Broken, Educational Only) ❌</option>
+                </select>
+                <p class="algorithm-note">GCM modes provide authentication. ECB mode is insecure for most uses. All AES modes use secure PBKDF2 key derivation.</p>
+            </div>
+            <div class="key-input">
+                <label for="symmetric-key">Key:</label>
+                <input type="password" id="symmetric-key" placeholder="Enter encryption key">
+                <button type="button" id="generate-key">Generate Key</button>
+            </div>
+            <div class="input-output">
+                <div class="input-section">
+                    <label for="symmetric-input">Input Text:</label>
+                    <textarea id="symmetric-input" placeholder="Enter text to encrypt/decrypt"></textarea>
+                </div>
+                <div class="controls">
+                    <button id="symmetric-encrypt">🔒 Encrypt</button>
+                    <button id="symmetric-decrypt">🔓 Decrypt</button>
+                    <button id="symmetric-clear">Clear</button>
+                </div>
+                <div class="output-section">
+                    <label for="symmetric-output">Output:</label>
+                    <textarea id="symmetric-output" readonly></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Asymmetric Encryption Tab -->
+        <div class="tab-content" id="asymmetric">
+            <h2>🗝️ Asymmetric Encryption</h2>
+            <div class="algorithm-select">
+                <label for="asymmetric-algo">Algorithm:</label>
+                <select id="asymmetric-algo">
+                    <option value="rsa">RSA (Key Generation Only) ⚠️</option>
+                </select>
+                <p class="algorithm-note">Full asymmetric encryption/decryption implementation in progress.</p>
+            </div>
+            <div class="key-section">
+                <div class="key-generation">
+                    <label>Key Management:</label>
+                    <button id="generate-keypair">Generate Key Pair</button>
+                    <button id="import-keys">Import Keys</button>
+                </div>
+                <div class="key-display">
+                    <div class="public-key">
+                        <label for="public-key">Public Key:</label>
+                        <textarea id="public-key" readonly></textarea>
+                    </div>
+                    <div class="private-key">
+                        <label for="private-key">Private Key:</label>
+                        <textarea id="private-key" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="input-output">
+                <div class="input-section">
+                    <label for="asymmetric-input">Input Text:</label>
+                    <textarea id="asymmetric-input" placeholder="Enter text to encrypt/decrypt"></textarea>
+                </div>
+                <div class="controls">
+                    <button id="asymmetric-encrypt">🔒 Encrypt</button>
+                    <button id="asymmetric-decrypt">🔓 Decrypt</button>
+                    <button id="asymmetric-sign">✍️ Sign</button>
+                    <button id="asymmetric-verify">✅ Verify</button>
+                    <button id="asymmetric-clear">Clear</button>
+                </div>
+                <div class="output-section">
+                    <label for="asymmetric-output">Output:</label>
+                    <textarea id="asymmetric-output" readonly></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hash Functions Tab -->
+        <div class="tab-content" id="hash">
+            <h2>🪞 Hash Functions</h2>
+            <div class="algorithm-select">
+                <label for="hash-algo">Algorithm:</label>
+                <select id="hash-algo">
+                    <option value="sha256">SHA-256 (Recommended) ✅</option>
+                    <option value="sha384">SHA-384 (High Security) ✅</option>
+                    <option value="sha512">SHA-512 (Highest Security) ✅</option>
+                    <option value="sha1">SHA-1 (Legacy, Not Recommended) ⚠️</option>
+                    <option value="md5">MD5 (Broken, Educational Only) ❌</option>
+                    <option value="sha3-256">SHA3-256 (Latest Standard) ✅</option>
+                    <option value="sha3-384">SHA3-384 (Latest Standard) ✅</option>
+                    <option value="sha3-512">SHA3-512 (Latest Standard) ✅</option>
+                    <option value="blake2b">BLAKE2b (Fast & Secure) ✅</option>
+                    <option value="blake2s">BLAKE2s (Compact & Fast) ✅</option>
+                    <option value="ripemd160">RIPEMD-160 (Alternative) ⚠️</option>
+                </select>
+                <p class="algorithm-note">Using WebCrypto API for secure hash computation.</p>
+            </div>
+            <div class="input-output">
+                <div class="input-section">
+                    <label for="hash-input">Input Text:</label>
+                    <textarea id="hash-input" placeholder="Enter text to hash"></textarea>
+                </div>
+                <div class="controls">
+                    <button id="hash-compute">🔍 Compute Hash</button>
+                    <button id="hash-clear">Clear</button>
+                </div>
+                <div class="output-section">
+                    <label for="hash-output">Hash Output:</label>
+                    <textarea id="hash-output" readonly></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Classical Ciphers Tab -->
+        <div class="tab-content" id="classical">
+            <h2>🔐 Classical Ciphers</h2>
+            <div class="algorithm-select">
+                <label for="classical-algo">Cipher:</label>
+                <select id="classical-algo">
+                    <option value="caesar">Caesar Cipher (Shift) ✅</option>
+                    <option value="atbash">Atbash Cipher (Reflection) ✅</option>
+                    <option value="vigenere">Vigenère Cipher (Polyalphabetic) ✅</option>
+                    <option value="playfair">Playfair Cipher (Digraph) ✅</option>
+                    <option value="hill">Hill Cipher (Matrix) ✅</option>
+                    <option value="railfence">Rail Fence Cipher (Transposition) ✅</option>
+                    <option value="rot13">ROT13 (Caesar variant) ✅</option>
+                    <option value="beaufort">Beaufort Cipher (Vigenère variant) ✅</option>
+                    <option value="fourSquare">Four Square Cipher ✅</option>
+                </select>
+                <p class="algorithm-note">Educational implementations of historical ciphers.</p>
+            </div>
+            <div class="cipher-key">
+                <label for="classical-key">Key/Parameter:</label>
+                <input type="text" id="classical-key" placeholder="Enter key or shift value">
+            </div>
+            <div class="input-output">
+                <div class="input-section">
+                    <label for="classical-input">Input Text:</label>
+                    <textarea id="classical-input" placeholder="Enter text to encrypt/decrypt"></textarea>
+                </div>
+                <div class="controls">
+                    <button id="classical-encrypt">🔒 Encrypt</button>
+                    <button id="classical-decrypt">🔓 Decrypt</button>
+                    <button id="classical-clear">Clear</button>
+                </div>
+                <div class="output-section">
+                    <label for="classical-output">Output:</label>
+                    <textarea id="classical-output" readonly></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Encoding Utilities Tab -->
+        <div class="tab-content" id="encoding">
+            <h2>🧾 Encoding Utilities</h2>
+            <div class="algorithm-select">
+                <label for="encoding-type">Encoding:</label>
+                <select id="encoding-type">
+                    <option value="base64">Base64 (Standard) ✅</option>
+                    <option value="base32">Base32 (Case-insensitive) ✅</option>
+                    <option value="base58">Base58 (Bitcoin style) ✅</option>
+                    <option value="base62">Base62 (URL-safe) ✅</option>
+                    <option value="base85">Base85 (ASCII85) ✅</option>
+                    <option value="hex">Hexadecimal ✅</option>
+                    <option value="morse">Morse Code ✅</option>
+                    <option value="binary">Binary Code ✅</option>
+                    <option value="ascii">ASCII Numbers ✅</option>
+                    <option value="url">URL Encoding ✅</option>
+                    <option value="html">HTML Entities ✅</option>
+                </select>
+            </div>
+            <div class="input-output">
+                <div class="input-section">
+                    <label for="encoding-input">Input Text:</label>
+                    <textarea id="encoding-input" placeholder="Enter text to encode/decode"></textarea>
+                </div>
+                <div class="controls">
+                    <button id="encoding-encode">📝 Encode</button>
+                    <button id="encoding-decode">📖 Decode</button>
+                    <button id="encoding-clear">Clear</button>
+                </div>
+                <div class="output-section">
+                    <label for="encoding-output">Output:</label>
+                    <textarea id="encoding-output" readonly></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- JSON Utilities Tab -->
+        <div class="tab-content" id="json">
+            <h2>🚀 JSON Utilities</h2>
+            <div class="algorithm-select">
+                <label for="json-type">JSON Tool:</label>
+                <select id="json-type">
+                    <option value="jwt">JSON Web Tokens (JWT)</option>
+                    <option value="jwe">JSON Web Encryption (JWE)</option>
+                    <option value="jws">JSON Web Signature (JWS)</option>
+                    <option value="jwk">JSON Web Key (JWK)</option>
+                </select>
+            </div>
+            <div class="jwt-section">
+                <div class="jwt-header">
+                    <label for="jwt-header">JWT Header:</label>
+                    <textarea id="jwt-header" placeholder='{"alg": "HS256", "typ": "JWT"}'></textarea>
+                </div>
+                <div class="jwt-payload">
+                    <label for="jwt-payload">JWT Payload:</label>
+                    <textarea id="jwt-payload" placeholder='{"sub": "1234567890", "name": "John Doe", "iat": 1516239022}'></textarea>
+                </div>
+                <div class="jwt-secret">
+                    <label for="jwt-secret">Secret Key:</label>
+                    <input type="password" id="jwt-secret" placeholder="Enter secret key">
+                </div>
+            </div>
+            <div class="input-output">
+                <div class="input-section">
+                    <label for="json-input">JWT Token:</label>
+                    <textarea id="json-input" placeholder="Enter JWT token to decode/verify"></textarea>
+                </div>
+                <div class="controls">
+                    <button id="jwt-create">🎫 Create JWT</button>
+                    <button id="jwt-decode">🔍 Decode JWT</button>
+                    <button id="jwt-verify">✅ Verify JWT</button>
+                    <button id="json-clear">Clear</button>
+                </div>
+                <div class="output-section">
+                    <label for="json-output">Output:</label>
+                    <textarea id="json-output" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

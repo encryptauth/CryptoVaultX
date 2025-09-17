@@ -1,0 +1,17 @@
+{
+  "name": "cryptotool-extension",
+  "version": "1.0.0",
+  "description": "Comprehensive Chrome extension for cryptographic operations",
+  "scripts": {
+    "build": "mkdir -p dist && cp manifest.json dist/ && cp -r src/* dist/ 2>/dev/null || true && cp -r icons dist/ 2>/dev/null || true",
+    "test": "echo 'Tests will be added as algorithms are implemented' && exit 0",
+    "lint": "echo 'Linting will be added with development dependencies' && exit 0",
+    "package": "mkdir -p artifacts && cd dist && zip -r ../artifacts/crypto-tool.zip .",
+    "watch": "echo 'Watch mode for development' && npm run build",
+    "dev": "npm run build && npm run package"
+  },
+  "devDependencies": {},
+  "keywords": ["chrome-extension", "cryptography", "encryption", "security"],
+  "author": "CryptoTool Extension",
+  "license": "MIT"
+}
